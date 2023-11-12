@@ -1,0 +1,428 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" data-theme="light" dir="ltr" data-rh="lang,dir">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FootyPredict | Soccer Scores</title>
+    <meta name="description" content="Get accurate football predictions, real-time soccer livescores, and in-depth football analysis at FootyPredict. Your go-to source for all things soccer.">
+    <meta name="keywords" content="football predictions, soccer livescore, football analysis, soccer scores, sports predictions">
+    <link rel="shortcut icon" href="logo.PNG" type="image/x-icon">
+   
+</head>
+<body>
+
+<header id="navbar">
+  <nav class="navbar-container container">
+    <a href="logo.png" class="home-link">
+      <div class="navbar-logo"></div>
+      <img src="logo.PNG" height="30%" width="35%" alt="">
+    </a>
+    <button type="button" id="navbar-toggle" aria-controls="navbar-menu" aria-label="Toggle menu" aria-expanded="false">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <div id="navbar-menu" aria-labelledby="navbar-toggle">
+      <ul class="navbar-links">
+        <li class="navbar-item"><a class="navbar-link" href="prediction.php">Predictions</a></li>
+     
+        <li class="navbar-item"><a class="navbar-link" href="betting_guide.html">Guide</a></li>
+        <li class="navbar-item"><a class="navbar-link" href="news.php">News</a></li>
+    <!--<li class="navbar-item"><a class="navbar-link" href="/contact">Fan's Corner</a></li> --->
+      </ul>
+    </div>
+  </nav>
+
+</header>
+<br><br><br><br><br>
+<div id="carousel" class="carousel">
+        <!-- Carousel content will be dynamically generated here -->
+    </div>
+
+<br><br>
+<iframe class="iframe" style="border: 0px #ffffff none;" src="https://afriscores.com?embed=true" name="myiFrame" height="2500px" frameborder="1" marginwidth="0px" marginheight="0px" scrolling="yes" allowfullscreen="allowfullscreen"></iframe>
+ 
+ 
+
+  <footer>
+        <p>Bet responsibly. Only for 18+.</p>
+        <div class="disclaimer">Footypredict is not a betting website. This is for informational purposes only. <a href="terms.html">T & C<a></div>
+    </footer>
+ 
+    <!---This is for the Navbar push out and push in functionality ---->
+<script>
+const navbarToggle = navbar.querySelector("#navbar-toggle");
+const navbarMenu = document.querySelector("#navbar-menu");
+const navbarLinksContainer = navbarMenu.querySelector(".navbar-links");
+let isNavbarExpanded = navbarToggle.getAttribute("aria-expanded") === "true";
+
+const toggleNavbarVisibility = () => {
+  isNavbarExpanded = !isNavbarExpanded;
+  navbarToggle.setAttribute("aria-expanded", isNavbarExpanded);
+};
+
+navbarToggle.addEventListener("click", toggleNavbarVisibility);
+
+navbarLinksContainer.addEventListener("click", (e) => e.stopPropagation());
+navbarMenu.addEventListener("click", toggleNavbarVisibility);
+
+
+
+function fetchSportsNews() {
+            var apiKey = '51cb5a8526c1426caf1632ecb5195467';
+            var url = `https://newsapi.org/v2/everything?q=soccer&apiKey=${apiKey}&sortBy=publishedAt`;
+
+            // Make an AJAX GET request to the NewsAPI
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    var articles = response.articles;
+
+                    // Generate carousel slides with title, URL, and image, I think i will finish up tommororw
+                    var carouselContent = '';
+                    for (var i = 0; i < articles.length; i++) {
+                        var title = articles[i].title;
+                        var articleUrl = articles[i].url;
+                        var imageUrl = articles[i].urlToImage;
+
+                        carouselContent += '<div class="slide">';
+                        carouselContent += '<a href="' + articleUrl + '">';
+                        carouselContent += '<img src="' + imageUrl + '" alt="' + title + '">';
+                        carouselContent += '<div class="slide-content">';
+                        carouselContent += '<h3 class="slide-title">' + title + '</h3>';
+                        carouselContent += '<a class="slide-link" href="' + articleUrl + '">Read More</a>';
+                        carouselContent += '</div>';
+                        carouselContent += '</a>';
+                        carouselContent += '</div>';
+                    }
+
+                    // Update the carousel with the generated slides
+                    var carouselElement = document.getElementById('carousel');
+                    carouselElement.innerHTML = carouselContent;
+
+                    // Initialize the carousel
+                    initCarousel();
+                } else {
+                    console.log('Error fetching sports news. Status:', xhr.status);
+                }
+            };
+            xhr.onerror = function () {
+                console.log('Error fetching sports news. Check your network connection.');
+            };
+            xhr.send();
+        }
+
+        // Function to initialize the carousel and start sliding
+        function initCarousel() {
+            var carouselElement = document.getElementById('carousel');
+            var slides = carouselElement.getElementsByClassName('slide');
+            var totalSlides = slides.length;
+            var currentSlide = 0;
+
+            // Show the first slide
+            slides[currentSlide].style.display = 'block';
+
+            // Slide the carousel every 5 seconds
+            setInterval(function () {
+                // Hide the current slide
+                slides[currentSlide].style.display = 'none';
+
+                // Calculate the index of the next slide
+                currentSlide = (currentSlide + 1) % totalSlides;
+
+                // Show the next slide
+                slides[currentSlide].style.display = 'block';
+            }, 9000); // Change the slide interval as desired
+        }
+
+        // Call the fetchSportsNews function to populate the carousel
+        fetchSportsNews();
+</script>
+
+</body>
+</html>
+
+
+<!---This is where the styling starts ---->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Work Sans', sans-serif !important;
+}
+
+body {
+  height: 100vh;
+  font-family: 'Work Sans', sans-serif;
+  line-height: 1.6;
+}
+.container {
+  max-width: 1000px;
+  padding-left: 1.4rem;
+  padding-right: 1.4rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/*Navbar Starts here, becareful with it, misbehaves alot, don't know why!!*/
+#navbar {
+  --navbar-height: 64px;
+  position: fixed;
+  height: var(--navbar-height);
+  left: 0;
+  right: 0;
+  background-color: #f2f2f2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 1 !important;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  align-items: center;
+  z-index: 1 !important;
+}
+
+.navbar-item {
+  margin: 0.4em;
+  width: 100%;
+}
+
+.home-link,
+.navbar-link {
+  color: var(--navbar-text-color);
+  text-decoration: none;
+  display: flex;
+  font-weight: 400;
+  align-items: center;
+}
+
+.home-link:is(:focus, :hover) {
+  color: green;
+}
+
+.navbar-link {
+  justify-content: center;
+  width: 100%;
+  padding: 0.4em 0.8em;
+  border-radius: 5px;
+}
+
+.navbar-link:is(:focus, :hover) {
+  color: var(--navbar-text-color-focus);
+  background-color: var(--navbar-bg-contrast);
+}
+.navbar-logo {
+  background-color: var(--navbar-text-color-focus);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  margin-right: 0.5em;
+}
+#navbar-toggle {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.icon-bar {
+  display: block;
+  width: 25px;
+  height: 4px;
+  margin: 2px;
+  background-color: green;
+}
+#navbar-toggle:is(:focus, :hover) .icon-bar {
+  background-color: green;
+}
+#navbar-toggle[aria-expanded="true"] .icon-bar:is(:first-child, :last-child) {
+  position: absolute;
+  margin: 0;
+  width: 30px;
+}
+#navbar-toggle[aria-expanded="true"] .icon-bar:first-child {
+  transform: rotate(45deg);
+}
+#navbar-toggle[aria-expanded="true"] .icon-bar:nth-child(2) {
+  opacity: 0;
+}
+#navbar-toggle[aria-expanded="true"] .icon-bar:last-child {
+  transform: rotate(-45deg);
+}
+#navbar-menu {
+  position: fixed;
+  top: var(--navbar-height);
+  bottom: 0;
+  opacity: 0;
+  visibility: hidden;
+  left: 0;
+  right: 0;
+  z-index: 1 !important;
+}
+#navbar-toggle[aria-expanded="true"] + #navbar-menu {
+  background-color: white;
+  opacity: 1;
+  visibility: visible;
+}
+.navbar-links {
+  list-style: none;
+  position: absolute;
+  background-color: var(--navbar-bg-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  left: 0;
+  right: 0;
+  margin: 1.4rem;
+  border-radius: 5px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  z-index: 1 !important;
+}
+
+#navbar-toggle[aria-expanded="true"] + #navbar-menu .navbar-links {
+  padding: 1em;
+}
+@media screen and (min-width: 700px) {
+  #navbar-toggle,
+  #navbar-toggle[aria-expanded="true"] {
+    display: none;
+  }
+
+  #navbar-menu,
+  #navbar-toggle[aria-expanded="true"] #navbar-menu {
+    visibility: visible;
+    opacity: 1;
+    position: static;
+    display: block;
+    height: 100%;
+  }
+
+  .navbar-links,
+  #navbar-toggle[aria-expanded="true"] #navbar-menu .navbar-links {
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    position: static;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    z-index: 1 !important;
+
+  }
+}
+
+/*Navbar Ends*/
+.carousel {
+  margin: 0 auto;
+  height: 30%;
+  overflow: hidden;
+  position: relative;
+  width: 60%;
+  z-index: -1; /* Set a lower z-index value */
+}
+
+@media screen and (max-width: 630px) {
+  .carousel {
+    width: 100%;
+  }
+}
+
+.slide {
+  display: none;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slide-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+}
+
+.slide-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
+
+.slide-link {
+  display: inline-block;
+  margin-top: 5px;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+/* Add sliding animation */
+@keyframes slideAnimation {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: -100%;
+  }
+}
+
+
+/*Style for the livescore container, basic style*/
+.iframe{
+  padding-top: 80px;
+  margin: 0 auto;
+  display: flex;
+  width: 60%;
+  font-family: 'Work Sans', sans-serif !important;
+  color: green;
+  box-shadow: 0 2px 4px rgba(2, 0, 0, 0.2);
+}
+
+@media screen and (max-width: 700px) {
+  .iframe{
+    width: 90%;
+  }
+}
+
+
+/*Footer [too basic I think] */
+
+footer {
+  background-color: #f2f2f2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  text-align: center;
+        }
+
+p {
+    margin: 0;
+    }
+
+.disclaimer {
+    font-size: 14px;
+    margin-top: 2px;
+ }
+
+</style>
